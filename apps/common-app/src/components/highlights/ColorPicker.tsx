@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   colorButtonSelected: {
-    borderColor: '#000',
+    borderColor: '#FFFFFF',
     borderWidth: 3,
   },
   colorName: {

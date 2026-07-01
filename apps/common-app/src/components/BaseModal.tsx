@@ -15,10 +15,6 @@ interface BaseModalProps {
   children: React.ReactNode;
 }
 
-/**
- * Base modal component with consistent styling and header
- * Used across all modals in the app for visual consistency
- */
 export const BaseModal: React.FC<BaseModalProps> = ({
   visible,
   title,
@@ -56,7 +52,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 10,
     width: '90%',
     maxWidth: 600,
@@ -73,16 +69,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
+    borderBottomColor: '#333333',
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#FFFFFF',
   },
   closeButton: {
     fontSize: 24,
-    color: '#666666',
+    color: '#B0B0B0',
     fontWeight: 'bold',
   },
   scrollView: {

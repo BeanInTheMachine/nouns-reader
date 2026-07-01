@@ -59,7 +59,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
         onPress={onClose}
         accessibilityLabel="Close reader"
       >
-        <MaterialIcons name="keyboard-arrow-down" size={28} color="#333" />
+        <MaterialIcons name="keyboard-arrow-down" size={28} color="#FFF" />
       </TouchableOpacity>
 
       <View style={styles.controls}>
@@ -102,7 +102,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
           onPress={onClearBook}
           accessibilityLabel="Clear book"
         >
-          <MaterialIcons name="close" size={22} color="#999" />
+          <MaterialIcons name="close" size={22} color="#777777" />
         </TouchableOpacity>
       </View>
     </View>
@@ -113,9 +113,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#1A1A1A',
     borderBottomWidth: 1,
-    borderBottomColor: '#DDD',
+    borderBottomColor: '#333333',
     paddingVertical: 8,
     paddingHorizontal: 4,
     minHeight: 48,

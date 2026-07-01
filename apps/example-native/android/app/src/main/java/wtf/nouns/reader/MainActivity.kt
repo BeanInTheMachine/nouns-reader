@@ -1,4 +1,4 @@
-package com.example.reactnativereadium
+package wtf.nouns.reader
 
 // https://github.com/software-mansion/react-native-screens/tree/6ad2f401061a7706af0f77186a466cb33241d680#android
 import android.os.Bundle;
@@ -13,7 +13,7 @@ class MainActivity : ReactActivity() {
    * Returns the name of the main component registered from JavaScript. This is used to schedule
    * rendering of the component.
    */
-  override fun getMainComponentName(): String = "ReadiumExample"
+  override fun getMainComponentName(): String = "NounsReader"
 
   /**
    * Returns the instance of the [ReactActivityDelegate]. We use [DefaultReactActivityDelegate]

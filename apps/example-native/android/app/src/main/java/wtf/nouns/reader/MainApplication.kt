@@ -1,4 +1,4 @@
-package com.example.reactnativereadium
+package wtf.nouns.reader
 
 import android.app.Application
 import com.facebook.react.PackageList

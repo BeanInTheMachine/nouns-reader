@@ -1,7 +1,7 @@
 {
-  "name": "react-native-readium",
-  "version": "5.0.0-rc.17",
-  "description": "A react-native wrapper for https://readium.org/",
+  "name": "nouns-reader",
+  "version": "0.1.0",
+  "description": "CC0 EPUB reader — Nouns DAO",
   "main": "lib/src/index",
   "types": "lib/src/index.d.ts",
   "react-native": "src/index",
@@ -57,16 +57,18 @@
     "ebook",
     "epub",
     "ereader",
-    "e-reader",
+    "nouns",
+    "nouns-dao",
+    "cc0",
     "read"
   ],
-  "repository": "http://github.com/5-stones/react-native-readium",
-  "author": "Jacob Spizziri <jspizziri@weare5stones.com> (https://github.com/jspizziri)",
-  "license": "MIT",
+  "repository": "https://github.com/BeanInTheMachine/nouns-reader",
+  "author": "BeanInTheMachine",
+  "license": "CC0-1.0",
   "bugs": {
-    "url": "http://github.com/5-stones/react-native-readium/issues"
+    "url": "https://github.com/BeanInTheMachine/nouns-reader/issues"
   },
-  "homepage": "http://github.com/5-stones/react-native-readium#readme",
+  "homepage": "https://github.com/BeanInTheMachine/nouns-reader#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

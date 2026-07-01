@@ -152,18 +152,18 @@ const styles = StyleSheet.create({
   },
   toggleIcon: {
     fontSize: 12,
-    color: '#666666',
+    color: '#B0B0B0',
   },
   title: {
     flex: 1,
     fontSize: 15,
     fontWeight: '500',
-    color: '#333333',
+    color: '#FFFFFF',
     marginRight: 12,
   },
   chevron: {
     fontSize: 24,
-    color: '#999999',
+    color: '#777777',
     fontWeight: '300',
   },
 });

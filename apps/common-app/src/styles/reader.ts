@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
   readiumContainer: {
     flex: 1,
     width: Platform.OS === 'web' ? '80%' : '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#0D0D0D',
   },
   loadingContainer: {
     flex: 1,

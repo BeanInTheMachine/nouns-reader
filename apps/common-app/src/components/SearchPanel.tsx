@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 4,
     borderRadius: 2,
-    backgroundColor: '#D0D0D0',
+    backgroundColor: '#555555',
   },
   header: {
     flexDirection: 'row',
@@ -283,14 +283,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: '#333333',
     gap: 8,
   },
   inputRow: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#0D0D0D',
     borderRadius: 10,
     paddingHorizontal: 8,
     height: 38,
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     fontSize: 16,
-    color: '#222',
+    color: '#FFFFFF',
     paddingVertical: 0,
   },
   clearButton: {
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
   },
   doneText: {
     fontSize: 16,
-    color: '#007AFF',
+    color: '#FFC700',
     fontWeight: '500',
   },
   list: {
@@ -322,24 +322,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#E0E0E0',
+    borderBottomColor: '#333333',
   },
   resultText: {
     fontSize: 15,
-    color: '#333',
+    color: '#FFFFFF',
     lineHeight: 22,
   },
   resultContext: {
-    color: '#777',
+    color: '#B0B0B0',
   },
   resultHighlight: {
-    color: '#222',
+    color: '#FFFFFF',
     fontWeight: '700',
-    backgroundColor: '#FFF3A3',
+    backgroundColor: '#FFC70040',
   },
   resultPosition: {
     fontSize: 12,
-    color: '#999',
+    color: '#777777',
     marginTop: 4,
   },
   footerSpinner: {
@@ -355,11 +355,11 @@ const styles = StyleSheet.create({
   emptyTitle: {
     fontSize: 17,
     fontWeight: '600',
-    color: '#444',
+    color: '#FFFFFF',
   },
   emptyMessage: {
     fontSize: 15,
-    color: '#888',
+    color: '#B0B0B0',
     textAlign: 'center',
   },
 });

@@ -28,7 +28,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       activeOpacity={0.7}
     >
       <View style={styles.iconContainer}>
-        <MaterialIcons name="menu-book" size={32} color="#007AFF" />
+        <MaterialIcons name="menu-book" size={32} color="#FFC700" />
       </View>
       <View style={styles.cardContent}>
         <Text style={styles.title} numberOfLines={2}>
@@ -45,7 +45,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   return (
     <View style={styles.container}>
       <View style={[styles.header, { paddingTop: insets.top + 16 }]}>
-        <Text style={styles.headerTitle}>Library</Text>
+        <Text style={styles.headerTitle}>Nouns Reader</Text>
       </View>
       <FlatList
         data={books}
@@ -60,19 +60,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#0D0D0D',
   },
   header: {
     paddingBottom: 16,
     paddingHorizontal: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderBottomWidth: 1,
-    borderBottomColor: '#EEEEEE',
+    borderBottomColor: '#333333',
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#FFC700',
   },
   list: {
     padding: 16,
@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#1A1A1A',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.3,
     shadowRadius: 3,
     elevation: 2,
   },
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 10,
-    backgroundColor: '#EBF5FF',
+    backgroundColor: '#2A2A2A',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 14,
@@ -106,11 +106,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333333',
+    color: '#FFFFFF',
     marginBottom: 4,
   },
   author: {
     fontSize: 13,
-    color: '#666666',
+    color: '#B0B0B0',
   },
 });

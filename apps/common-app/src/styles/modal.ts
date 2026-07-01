@@ -1,96 +1,84 @@
 import { StyleSheet } from 'react-native';
 
 /**
- * Shared styles for modal components
+ * Shared styles for modal components — Nouns DAO theme
  * Used to maintain consistent styling across all modals
  */
 export const modalStyles = StyleSheet.create({
-  // Card-style item container used in lists
   cardItem: {
-    backgroundColor: '#F9F9F9',
+    backgroundColor: '#1A1A1A',
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: '#EEEEEE',
+    borderColor: '#333333',
   },
 
-  // Last item in a list (no bottom margin)
   cardItemLast: {
     marginBottom: 0,
   },
 
-  // Section title text
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333333',
+    color: '#FFFFFF',
     marginBottom: 12,
   },
 
-  // Empty state text
   emptyText: {
     fontSize: 14,
-    color: '#999999',
+    color: '#B0B0B0',
     fontStyle: 'italic',
     textAlign: 'center',
     paddingVertical: 20,
   },
 
-  // Standard action button
   actionButton: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 4,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FFC700',
   },
 
-  // Destructive action button (delete, etc)
   destructiveButton: {
-    backgroundColor: '#FF3B30',
+    backgroundColor: '#FF6B6B',
   },
 
-  // Action button text
   actionButtonText: {
     fontSize: 12,
-    color: '#FFFFFF',
+    color: '#0D0D0D',
     fontWeight: '600',
   },
 
-  // Text input field
   textInput: {
     borderWidth: 1,
-    borderColor: '#DDDDDD',
+    borderColor: '#333333',
     borderRadius: 8,
     padding: 12,
     fontSize: 14,
-    color: '#333333',
-    backgroundColor: '#FAFAFA',
+    color: '#FFFFFF',
+    backgroundColor: '#0D0D0D',
   },
 
-  // Section container
   section: {
     marginBottom: 16,
   },
 
-  // Selected text display box
   selectedText: {
     fontSize: 14,
-    color: '#666666',
+    color: '#B0B0B0',
     fontStyle: 'italic',
     padding: 8,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#0D0D0D',
     borderRadius: 4,
   },
 
-  // Button row container
   buttonRow: {
     flexDirection: 'row',
     gap: 12,
     marginTop: 8,
   },
 
-  // Standard button
   button: {
     flex: 1,
     paddingVertical: 12,
@@ -98,54 +86,51 @@ export const modalStyles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // Cancel button styling
   cancelButton: {
-    backgroundColor: '#999999',
+    backgroundColor: '#555555',
   },
 
-  // Confirm/Save button styling
   confirmButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FFC700',
   },
 
-  // Success button (e.g., Save)
   saveButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#FFC700',
   },
 
-  // Destructive button (e.g., Delete) for button rows
   deleteButton: {
-    backgroundColor: '#FF3B30',
+    backgroundColor: '#FF6B6B',
   },
 
-  // Button text
   buttonText: {
-    color: '#FFFFFF',
+    color: '#0D0D0D',
     fontSize: 14,
     fontWeight: '600',
   },
 });
 
 /**
- * Color constants used across the app
+ * Color constants — Nouns DAO palette
  */
 export const colors = {
-  primary: '#007AFF',
-  destructive: '#FF3B30',
-  success: '#34C759',
+  primary: '#FFC700',
+  secondary: '#FF6B6B',
+  accent: '#4ECDC4',
+  destructive: '#FF6B6B',
+  success: '#4ECDC4',
   text: {
-    primary: '#333333',
-    secondary: '#666666',
-    tertiary: '#999999',
+    primary: '#FFFFFF',
+    secondary: '#B0B0B0',
+    tertiary: '#777777',
   },
   background: {
-    card: '#F9F9F9',
-    input: '#FAFAFA',
+    card: '#1A1A1A',
+    input: '#0D0D0D',
   },
   border: {
-    primary: '#EEEEEE',
-    secondary: '#DDDDDD',
-    tertiary: '#CCCCCC',
+    primary: '#333333',
+    secondary: '#2A2A2A',
+    tertiary: '#222222',
   },
 };
 
@@ -153,10 +138,10 @@ export const colors = {
  * Highlight color options
  */
 export const HIGHLIGHT_COLORS = [
-  { name: 'Yellow', value: '#FFFF00' },
-  { name: 'Green', value: '#00FF00' },
-  { name: 'Blue', value: '#00BFFF' },
+  { name: 'Gold', value: '#FFC700' },
+  { name: 'Coral', value: '#FF6B6B' },
+  { name: 'Teal', value: '#4ECDC4' },
   { name: 'Pink', value: '#FFB6C1' },
   { name: 'Orange', value: '#FFA500' },
-  { name: 'Purple', value: '#DDA0DD' },
+  { name: 'Lavender', value: '#DDA0DD' },
 ];

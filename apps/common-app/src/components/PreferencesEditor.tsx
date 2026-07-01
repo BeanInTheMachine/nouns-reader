@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   themeButtonText: {
-    color: '#FFFFFF',
+    color: '#0D0D0D',
     fontSize: 14,
     fontWeight: '600',
   },

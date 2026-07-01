@@ -33,7 +33,7 @@ export const ReaderButton: React.FC<ReaderButtonProps> = ({
         <MaterialIcons
           name={name}
           size={size}
-          color={Platform.OS === 'web' ? '#666' : undefined}
+          color={Platform.OS === 'web' ? '#B0B0B0' : undefined}
         />
       </TouchableOpacity>
     </View>

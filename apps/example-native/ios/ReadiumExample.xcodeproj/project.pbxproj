@@ -569,7 +569,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.reactnativereadium;
+				PRODUCT_BUNDLE_IDENTIFIER = wtf.nouns.reader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReadiumExample.app/ReadiumExample";
 			};
@@ -588,7 +588,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.reactnativereadium;
+				PRODUCT_BUNDLE_IDENTIFIER = wtf.nouns.reader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ReadiumExample.app/ReadiumExample";
 			};
@@ -610,7 +610,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.reactnativereadium;
+				PRODUCT_BUNDLE_IDENTIFIER = wtf.nouns.reader;
 				PRODUCT_NAME = ReadiumExample;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -634,7 +634,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.reactnativereadium;
+				PRODUCT_BUNDLE_IDENTIFIER = wtf.nouns.reader;
 				PRODUCT_NAME = ReadiumExample;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
