@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 import { View, Text, Platform } from 'react-native';
-import { ReadiumView, useSearch } from 'react-native-readium';
+import { ReadiumView, useSearch } from 'nouns-reader';
 import type {
   ReadiumViewRef,
   ReadiumProps,
@@ -11,7 +11,7 @@ import type {
   PublicationReadyEvent,
   SearchResult,
   SearchOptions,
-} from 'react-native-readium';
+} from 'nouns-reader';
 
 import { ReaderButton } from './ReaderButton';
 import {

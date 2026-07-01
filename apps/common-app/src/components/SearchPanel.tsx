@@ -11,7 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import type { Locator, SearchResult, SearchOptions } from 'react-native-readium';
+import type { Locator, SearchResult, SearchOptions } from 'nouns-reader';
 import { ReaderButton } from './ReaderButton';
 
 export interface SearchPanelProps {

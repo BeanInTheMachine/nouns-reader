@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import type { Decoration } from 'react-native-readium';
+import type { Decoration } from 'nouns-reader';
 import { BaseModal } from '../BaseModal';
 import { ColorPicker } from './ColorPicker';
 import { modalStyles, HIGHLIGHT_COLORS } from '../../styles/modal';

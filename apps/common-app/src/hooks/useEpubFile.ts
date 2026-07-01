@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
-import type { File, Locator } from 'react-native-readium';
+import type { File, Locator } from 'nouns-reader';
 import RNFS from '../utils/RNFS';
 
 interface UseEpubFileOptions {

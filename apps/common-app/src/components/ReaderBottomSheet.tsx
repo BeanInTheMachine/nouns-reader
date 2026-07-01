@@ -8,7 +8,7 @@ import { Reader } from './Reader';
 import type { ReaderHandle } from './Reader';
 import { ControlBar } from './ControlBar';
 import type { BookOption } from '../types/reader.types';
-import type { ReadiumProps } from 'react-native-readium';
+import type { ReadiumProps } from 'nouns-reader';
 
 type ContentMode = 'reader' | 'details';
 

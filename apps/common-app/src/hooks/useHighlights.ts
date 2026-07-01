@@ -5,7 +5,7 @@ import type {
   SelectionEvent,
   SelectionActionEvent,
   DecorationActivatedEvent,
-} from 'react-native-readium';
+} from 'nouns-reader';
 import type { CurrentSelection, PendingHighlight } from '../types/reader.types';
 
 export const useHighlights = () => {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import type { ReadiumProps } from 'react-native-readium';
+import type { ReadiumProps } from 'nouns-reader';
 
 const STORAGE_KEY = 'reader-preferences';
 

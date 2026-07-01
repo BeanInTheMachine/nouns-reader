@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Slider from '@react-native-community/slider';
-import type { ReadiumProps } from 'react-native-readium';
-import { RANGES } from 'react-native-readium';
+import type { ReadiumProps } from 'nouns-reader';
+import { RANGES } from 'nouns-reader';
 import { ReaderButton } from './ReaderButton';
 import { BaseModal } from './BaseModal';
 import { modalStyles, colors } from '../styles/modal';

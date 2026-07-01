@@ -1,4 +1,4 @@
-import type { Locator } from 'react-native-readium';
+import type { Locator } from 'nouns-reader';
 
 export interface BookOption {
   id: string;

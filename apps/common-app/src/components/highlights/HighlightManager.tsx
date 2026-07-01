@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import type { Decoration, Locator } from 'react-native-readium';
+import type { Decoration, Locator } from 'nouns-reader';
 import { ReaderButton } from '../ReaderButton';
 import { BaseModal } from '../BaseModal';
 import { modalStyles, colors } from '../../styles/modal';

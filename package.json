@@ -19,7 +19,7 @@
     "nitrogen/generated",
     "nitro.json",
     "scripts/*.rb",
-    "react-native-readium.podspec",
+    "nouns-reader.podspec",
     "!lib/typescript/example",
     "!ios/build",
     "!**/__tests__",

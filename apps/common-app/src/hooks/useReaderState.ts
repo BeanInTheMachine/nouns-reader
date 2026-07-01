@@ -4,7 +4,7 @@ import type {
   Locator,
   ReadiumProps,
   PublicationReadyEvent,
-} from 'react-native-readium';
+} from 'nouns-reader';
 
 export interface UseReaderStateOptions {
   initialPreferences?: ReadiumProps['preferences'];
