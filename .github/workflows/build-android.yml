@@ -36,7 +36,7 @@ jobs:
 
       - name: Build Android release APK
         working-directory: apps/example-native/android
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleRelease -PhermesEnabled=false
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
