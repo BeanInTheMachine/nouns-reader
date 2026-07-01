@@ -24,11 +24,15 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Enable Corepack
-        run: corepack enable
+      - name: Prepare Yarn
+        run: corepack prepare yarn@3.6.4 --activate
 
       - name: Install dependencies
         run: yarn install
+
+      - name: Make gradlew executable
+        working-directory: apps/example-native/android
+        run: chmod +x gradlew
 
       - name: Build Android release APK
         working-directory: apps/example-native/android
