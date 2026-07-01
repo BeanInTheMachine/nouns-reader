@@ -1,0 +1,351 @@
+/*
+ * Copyright 2021 Readium Foundation. All rights reserved.
+ * Use of this source code is governed by the BSD-style license
+ * available in the top-level LICENSE file of the project.
+ */
+
+package com.reactnativereadium.reader
+
+import android.os.Bundle
+import android.view.*
+import android.view.accessibility.AccessibilityManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commitNow
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.reactnativereadium.R
+import kotlinx.coroutines.launch
+import org.readium.r2.navigator.DecorableNavigator
+import org.readium.r2.navigator.SelectableNavigator
+import org.readium.r2.navigator.epub.EpubNavigatorFragment
+import org.readium.r2.navigator.Navigator
+import org.readium.r2.navigator.epub.EpubPreferences
+import org.readium.r2.navigator.epub.EpubNavigatorFactory
+import org.readium.r2.shared.publication.Locator
+import org.readium.r2.shared.publication.Publication
+import org.readium.r2.navigator.preferences.Theme
+import org.readium.r2.shared.ExperimentalReadiumApi
+import org.readium.r2.shared.publication.services.search.SearchIterator
+import org.readium.r2.shared.publication.services.search.SearchService
+import org.readium.r2.shared.publication.services.search.search
+
+data class SelectionAction(
+    val id: String,
+    val label: String
+)
+
+/**
+ * A page of search results produced by [EpubReaderFragment]'s paginated search,
+ * converted to a Nitro `SearchPage` by the view layer.
+ */
+data class SearchPageData(
+    val results: List<Locator>,
+    val hasMore: Boolean,
+    val totalCount: Int?,
+    val isSupported: Boolean
+)
+
+class EpubReaderFragment : VisualReaderFragment() {
+
+    override lateinit var model: ReaderViewModel
+    override lateinit var navigator: Navigator
+    private lateinit var publication: Publication
+    lateinit var navigatorFragment: EpubNavigatorFragment
+    private lateinit var factory: ReaderViewModel.Factory
+    private lateinit var navigatorFactory: EpubNavigatorFactory
+    private var pendingPreferences: EpubPreferences? = null
+
+    private lateinit var userPreferences: EpubPreferences
+
+    // Accessibility
+    private var isExploreByTouchEnabled = false
+
+    // Selection actions configuration
+    private var selectionActions: List<SelectionAction> = emptyList()
+    private var searchIterator: SearchIterator? = null
+    // Assumed true until a search proves otherwise, so a loadMore with no active
+    // search doesn't masquerade as "search unsupported".
+    private var searchSupported = true
+    // Bumped on each new search / cancel so a coroutine whose next() was in flight
+    // when superseded can't close or clobber the iterator that replaced it.
+    private var searchGeneration = 0
+
+    // Custom selection action mode callback for adding custom action buttons
+    val customSelectionActionModeCallback: ActionMode.Callback by lazy {
+        SelectionActionModeCallback()
+    }
+
+    private fun ensureUserPreferencesInitialized() {
+      if (this::userPreferences.isInitialized) return
+      userPreferences = pendingPreferences ?: EpubPreferences()
+    }
+
+    private fun applyPendingPreferencesIfNeeded() {
+      if (!this::navigator.isInitialized) return
+      pendingPreferences?.let { updatePreferences(it) }
+    }
+
+    fun initFactory(
+      publication: Publication,
+      initialLocation: Locator?
+    ) {
+      factory = ReaderViewModel.Factory(
+        publication,
+        initialLocation
+      )
+      navigatorFactory = EpubNavigatorFactory(publication)
+    }
+
+    fun updatePreferences(epubPreferences: EpubPreferences) {
+      userPreferences = epubPreferences
+
+      if (this::navigator.isInitialized && navigator is EpubNavigatorFragment) {
+        (navigator as EpubNavigatorFragment).submitPreferences(userPreferences)
+        pendingPreferences = null
+
+        // Update position label color to match theme, similar to iOS implementation
+        updatePositionLabelColor()
+      } else {
+        pendingPreferences = epubPreferences
+      }
+    }
+
+    private fun updatePositionLabelColor() {
+      // Priority 1: Use explicit textColor if set
+      val color = userPreferences.textColor?.int
+      // Priority 2: Use theme's content color
+      ?: userPreferences.theme?.contentColor
+      // Priority 3: Default to dark gray
+      ?: android.graphics.Color.DKGRAY
+
+      setPositionLabelColor(color)
+    }
+
+    fun updateSelectionActions(actions: List<SelectionAction>) {
+      selectionActions = actions
+    }
+
+    /**
+     * Starts a new search, releasing any previous iterator, and returns the
+     * first page of results. Subsequent pages are fetched via [loadMoreSearchResults].
+     */
+    @OptIn(ExperimentalReadiumApi::class)
+    suspend fun startSearch(
+      query: String,
+      options: SearchService.Options = SearchService.Options()
+    ): SearchPageData {
+      // Supersede any prior search and release its iterator.
+      val generation = ++searchGeneration
+      searchIterator?.close()
+      searchIterator = null
+
+      val iterator = model.publication.search(query, options)
+      if (iterator == null) {
+        searchSupported = false
+        return SearchPageData(emptyList(), hasMore = false, totalCount = null, isSupported = false)
+      }
+      searchSupported = true
+
+      // A newer search (or cancel) ran while we awaited; discard this iterator.
+      if (generation != searchGeneration) {
+        iterator.close()
+        return SearchPageData(emptyList(), hasMore = false, totalCount = null, isSupported = true)
+      }
+      searchIterator = iterator
+      return nextSearchPage(generation)
+    }
+
+    /**
+     * Returns the next page of results for the in-flight search, or a terminal
+     * page when the iterator is exhausted or no search is active.
+     */
+    suspend fun loadMoreSearchResults(): SearchPageData = nextSearchPage(searchGeneration)
+
+    /** Cancels the in-flight search and releases its iterator. */
+    fun cancelSearch() {
+      searchGeneration++
+      searchIterator?.close()
+      searchIterator = null
+    }
+
+    private suspend fun nextSearchPage(generation: Int): SearchPageData {
+      if (generation != searchGeneration) {
+        return SearchPageData(emptyList(), hasMore = false, totalCount = null, isSupported = searchSupported)
+      }
+      val iterator = searchIterator
+        ?: return SearchPageData(emptyList(), hasMore = false, totalCount = null, isSupported = searchSupported)
+
+      return try {
+        val page = iterator.next().getOrNull()
+        // Read before any close() below — the iterator is invalid once closed.
+        val total = iterator.resultCount
+        if (generation != searchGeneration) {
+          // Superseded while awaiting next(); the new search owns the iterator.
+          SearchPageData(emptyList(), hasMore = false, totalCount = null, isSupported = true)
+        } else if (page != null) {
+          SearchPageData(page.locators, hasMore = true, totalCount = total, isSupported = true)
+        } else {
+          iterator.close()
+          searchIterator = null
+          SearchPageData(emptyList(), hasMore = false, totalCount = total, isSupported = true)
+        }
+      } catch (e: kotlinx.coroutines.CancellationException) {
+        throw e
+      } catch (e: Exception) {
+        android.util.Log.w("EpubReaderFragment", "Search iteration error", e)
+        if (generation == searchGeneration) {
+          iterator.close()
+          searchIterator = null
+        }
+        SearchPageData(emptyList(), hasMore = false, totalCount = null, isSupported = true)
+      }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+      check(::navigatorFactory.isInitialized) { "EpubReaderFragment factory was not initialized" }
+
+        ViewModelProvider(this, factory)
+          .get(ReaderViewModel::class.java)
+          .let {
+            model = it
+            publication = it.publication
+          }
+
+          ensureUserPreferencesInitialized()
+
+          childFragmentManager.fragmentFactory =
+            navigatorFactory.createFragmentFactory(
+              initialLocator = model.initialLocation,
+              initialPreferences = userPreferences,
+              configuration = EpubNavigatorFragment.Configuration {
+                if (selectionActions.isNotEmpty()) {
+                  selectionActionModeCallback = customSelectionActionModeCallback
+                }
+              }
+            )
+
+        setHasOptionsMenu(true)
+
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+        val navigatorFragmentTag = getString(R.string.epub_navigator_tag)
+
+        if (savedInstanceState == null) {
+            childFragmentManager.commitNow {
+                add(R.id.fragment_reader_container, EpubNavigatorFragment::class.java, Bundle(), navigatorFragmentTag)
+            }
+        }
+        navigator = childFragmentManager.findFragmentByTag(navigatorFragmentTag) as Navigator
+        navigatorFragment = navigator as EpubNavigatorFragment
+
+        applyPendingPreferencesIfNeeded()
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set initial position label color based on current preferences
+        updatePositionLabelColor()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val activity = requireActivity()
+
+        ensureUserPreferencesInitialized()
+        applyPendingPreferencesIfNeeded()
+
+        // If TalkBack or any touch exploration service is activated we force scroll mode (and
+        // override user preferences)
+        val am = activity.getSystemService(AppCompatActivity.ACCESSIBILITY_SERVICE) as AccessibilityManager
+        isExploreByTouchEnabled = am.isTouchExplorationEnabled
+
+        userPreferences = if (isExploreByTouchEnabled) {
+            userPreferences.plus(EpubPreferences(scroll = true))
+        } else {
+            userPreferences.plus(EpubPreferences(scroll = null))
+        }
+        (navigator as? EpubNavigatorFragment)?.submitPreferences(userPreferences)
+    }
+
+    private inner class SelectionActionModeCallback : ActionMode.Callback {
+        // Store action IDs mapped to their menu item IDs for lookup
+        private val actionIdMap = mutableMapOf<Int, String>()
+
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            // Clear previous action mappings
+            actionIdMap.clear()
+
+            // Only add menu items if navigator supports decorations
+            if (navigator !is DecorableNavigator) {
+                return true
+            }
+
+            // Dynamically add menu items for each configured action
+            selectionActions.forEachIndexed { index, action ->
+                // Generate a unique menu item ID using the action's hash
+                val menuItemId = action.id.hashCode()
+                actionIdMap[menuItemId] = action.id
+
+                // Add menu item with the action's label
+                menu.add(Menu.NONE, menuItemId, index, action.label).apply {
+                    // Show as action button if there's space
+                    setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                    // Use star icon for highlight action, otherwise use default
+                    if (action.id == "highlight") {
+                        setIcon(android.R.drawable.btn_star_big_on)
+                    }
+                }
+            }
+
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            val actionId = actionIdMap[item.itemId]
+            if (actionId != null) {
+                // Get the current selection from the navigator
+                lifecycleScope.launch {
+                    val selectableNavigator = navigator as? SelectableNavigator
+                    val selection = selectableNavigator?.currentSelection()
+
+                    if (selection != null) {
+                        // Emit generic SelectionAction event to React Native
+                        channel.send(
+                            ReaderViewModel.Event.SelectionAction(
+                                actionId = actionId,
+                                locator = selection.locator,
+                                selectedText = selection.locator.text.highlight ?: ""
+                            )
+                        )
+                    }
+                }
+
+                mode.finish()
+                return true
+            }
+            return false
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            // Clean up action mappings
+            actionIdMap.clear()
+        }
+    }
+
+    companion object {
+
+        fun newInstance(): EpubReaderFragment {
+            return EpubReaderFragment()
+        }
+    }
+}

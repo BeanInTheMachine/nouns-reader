@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "react-native-readium": ["./src/index"]
+    },
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-native",
+    "lib": ["es2017", "DOM", "DOM.Iterable"],
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "resolveJsonModule": true,
+    "strict": true,
+    "target": "esnext",
+    "module": "esnext",
+    "skipLibCheck": true
+  },
+  "include": ["src", "dita.d.ts"],
+  "exclude": ["**/__tests__/*", "example"]
+}
